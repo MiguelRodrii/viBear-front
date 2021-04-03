@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
-import { productoReducer } from "./productoReducer";
+import {ivaPercentagesReducer} from "./productsInventory/ivaPercentagesReducer";
 
 const reducers = combineReducers({
-    producto: productoReducer
+    ivaPercentages: ivaPercentagesReducer
 });
 
 const rootReducer = (state, action) => {
