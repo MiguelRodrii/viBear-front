@@ -2,15 +2,18 @@ import { Menubar } from "primereact/menubar";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 
-export const Tabs = ({siteName = "Inventario de productos"}) => {
+export const Tabs = ({ siteName = "Inventario de productos" }) => {
   const history = useHistory();
 
   Tabs.propTypes = {
-    siteName: PropTypes.string
+    siteName: PropTypes.string,
   };
 
-  const handleCreateProductType = ( {title} ) => {
+  const handleCreateProductType = () => {
     history.push("/productsInventory/productTypes/createProductType");
+  };
+  const handleManageProductTypes = () => {
+    history.push("/productsInventory/productTypes/manageProductTypes");
   };
 
   const items = [
@@ -51,7 +54,11 @@ export const Tabs = ({siteName = "Inventario de productos"}) => {
           icon: "pi pi-fw pi-plus",
           command: handleCreateProductType,
         },
-        { label: "Administrar tipos de productos", icon: "pi pi-fw pi-eye" },
+        {
+          label: "Administrar tipos de productos",
+          icon: "pi pi-fw pi-eye",
+          command: handleManageProductTypes,
+        },
       ],
     },
   ];
@@ -59,11 +66,7 @@ export const Tabs = ({siteName = "Inventario de productos"}) => {
   return (
     <div>
       <div className="card ">
-        <Menubar
-          start={`${siteName}`}
-          model={items}
-          className="p-d-flex p-jc-between p-mt-1"
-        />
+        <Menubar start={`${siteName}`} className="p-jc-between" model={items} />
       </div>
     </div>
   );

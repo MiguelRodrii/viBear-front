@@ -2,29 +2,38 @@ import { Card } from "primereact/card";
 import { InputText } from "primereact/inputtext";
 import { Checkbox } from "primereact/checkbox";
 import { Dropdown } from "primereact/dropdown";
-import { Button } from 'primereact/button';
+import { Button } from "primereact/button";
 import React, { useState, useEffect } from "react";
+import { showToast } from "../../../../redux/actions/toast";
 import { useDispatch, useSelector } from "react-redux";
 import { getIvaPercentages } from "../../../../redux/actions/productsInventory/ivaPercentages";
+import { createProductType } from "../../../../redux/actions/productsInventory/productTypes";
 
 export const Body = () => {
   const dispatch = useDispatch();
   const { ivaPercentages } = useSelector((state) => state.ivaPercentages);
   const [name, setName] = useState("");
   const [isExpirable, setIsExpirable] = useState(true);
-  const [selectedIvaPercentage, setSelectedIvaPercentage] = useState(null);
+  const [selectedIvaPercentageId, setselectedIvaPercentageId] = useState(null);
 
   useEffect(() => {
     dispatch(getIvaPercentages());
   }, [dispatch]);
 
   const onIvaPercentageChange = (e) => {
-    setSelectedIvaPercentage(e.value);
+    setselectedIvaPercentageId(e.value);
   };
 
   const hadleSubmitCreateProductType = () => {
-    console.log("Submit");
-  }
+    if (name === "" || selectedIvaPercentageId === null) {
+      dispatch(showToast("warn", "Por favor, rellene todos los campos."));
+    } else {
+      const success = dispatch(createProductType(name, isExpirable, selectedIvaPercentageId));
+      if (success) {
+        setName("");
+      }
+    }
+  };
 
   return (
     <>
@@ -37,7 +46,8 @@ export const Body = () => {
           <InputText
             className="p-d-block"
             value={name}
-            onChange={(e) => setName(e.target.value)} required={true}
+            onChange={(e) => setName(e.target.value)}
+            required={true}
           />
           <small className="p-d-block">
             Nombre del tipo de producto. Ejemplo: enlatados.
@@ -66,10 +76,11 @@ export const Body = () => {
             <h1>Loading...</h1>
           ) : (
             <Dropdown
-              value={selectedIvaPercentage}
+              value={selectedIvaPercentageId}
               options={ivaPercentages}
               onChange={onIvaPercentageChange}
               optionLabel="value"
+              optionValue="id"
               placeholder="Seleccione un porcentaje de iva."
             />
           )}
@@ -78,7 +89,7 @@ export const Body = () => {
           </small>
         </div>
 
-        <Button label="Crear" onClick={hadleSubmitCreateProductType}/>
+        <Button label="Crear" onClick={hadleSubmitCreateProductType} />
       </Card>
     </>
   );

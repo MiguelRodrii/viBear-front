@@ -1,12 +1,16 @@
 import { combineReducers } from "redux";
-import {ivaPercentagesReducer} from "./productsInventory/ivaPercentagesReducer";
+import { toastReducer } from "./toastReducer";
+import { ivaPercentagesReducer } from "./productsInventory/ivaPercentagesReducer";
+import { productTypesReducer } from "./productsInventory/productTypesReducer";
 
 const reducers = combineReducers({
-    ivaPercentages: ivaPercentagesReducer
+  toast: toastReducer,
+  ivaPercentages: ivaPercentagesReducer,
+  productTypes: productTypesReducer,
 });
 
 const rootReducer = (state, action) => {
-    return reducers(state,action);
+  return reducers(state, action);
 };
 
 export default rootReducer;
