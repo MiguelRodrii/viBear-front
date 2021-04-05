@@ -50,3 +50,76 @@ export const createProductType = (name, isExpirable, ivaPercentageId) => async (
     return false;
   }
 };
+
+export const getProductTypes = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: groupTypes.GET_PRODUCT_TYPES_LOADING,
+      payload: { loading: true },
+    });
+    const response = await API.request(gql`
+      query {
+        productTypes {
+          id
+          name
+          is_expirable
+          iva_percentage {
+            value
+          }
+        }
+      }
+    `);
+    dispatch({
+      type: groupTypes.GET_PRODUCT_TYPES_SUCCESS,
+      payload: {
+        loading: false,
+        success: true,
+        productTypes: response.productTypes,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: groupTypes.GET_PRODUCT_TYPES_FAILED,
+      payload: {
+        loading: false,
+        success: false,
+      },
+    });
+  }
+};
+
+export const deleteProductType = (productType) => async (dispatch) => {
+  try {
+    dispatch({
+      type: groupTypes.DETELE_PRODUCT_TYPE_LOADING,
+      payload: { loading: true },
+    });
+    const response = await API.request(gql`
+      mutation {
+        deleteProductType(id: ${productType.id})
+      }
+    `);
+    if (response.deleteProductType) {
+      dispatch({
+        type: groupTypes.DETELE_PRODUCT_TYPE_LOADING,
+        payload: { loading: true, success: true },
+      });
+      dispatch(getProductTypes());
+      return true;
+    } else {
+      dispatch({
+        type: groupTypes.DETELE_PRODUCT_TYPE_LOADING,
+        payload: { loading: true, success: false },
+      });
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: groupTypes.DETELE_PRODUCT_TYPE_LOADING,
+      payload: { loading: true, success: false },
+    });
+    return false;
+  }
+};

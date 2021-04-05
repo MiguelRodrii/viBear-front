@@ -1,6 +1,6 @@
 import { MainMenu } from "../../../components/MainMenu";
 import { Tabs } from "../../../components/productsInventory/Tabs";
-
+import {Body} from "../../../components/productsInventory/productTypes/manageProductTypes/Body";
 
 export const ManageProductTypes = () => {
   return (
@@ -18,6 +18,7 @@ export const ManageProductTypes = () => {
       </div>
       <div className="p-grid">
         <div className="p-col p-d-inline">
+            <Body></Body>
         </div>
       </div>
     </>
