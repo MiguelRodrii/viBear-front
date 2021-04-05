@@ -90,6 +90,40 @@ export const getProductTypes = () => async (dispatch) => {
   }
 };
 
+export const getSimpleProductTypes = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: groupTypes.GET_SIMPLE_PRODUCT_TYPES_LOADING,
+      payload: { loading: true },
+    });
+    const response = await API.request(gql`
+      query {
+        productTypes {
+          id
+          name
+        }
+      }
+    `);
+    dispatch({
+      type: groupTypes.GET_SIMPLE_PRODUCT_TYPES_SUCCESS,
+      payload: {
+        loading: false,
+        success: true,
+        simpleProductTypes: response.productTypes,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: groupTypes.GET_SIMPLE_PRODUCT_TYPES_FAILED,
+      payload: {
+        loading: false,
+        success: false,
+      },
+    });
+  }
+};
+
 export const deleteProductType = (productType) => async (dispatch) => {
   try {
     dispatch({
@@ -104,7 +138,11 @@ export const deleteProductType = (productType) => async (dispatch) => {
     if (response.deleteProductType) {
       dispatch({
         type: groupTypes.DELETE_PRODUCT_TYPE_SUCCESS,
-        payload: { loading: true, success: true, deletedProductTypeId: productType.id },
+        payload: {
+          loading: true,
+          success: true,
+          deletedProductTypeId: productType.id,
+        },
       });
       return true;
     } else {

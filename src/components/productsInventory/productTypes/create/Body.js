@@ -14,7 +14,9 @@ export const Body = () => {
   const { ivaPercentages } = useSelector((state) => state.ivaPercentages);
   const [name, setName] = useState("");
   const [isExpirable, setIsExpirable] = useState(true);
-  const [selectedIvaPercentageId, setselectedIvaPercentageId] = useState(null);
+  const [selectedIvaPercentageId, setselectedIvaPercentageId] = useState(
+    undefined
+  );
 
   useEffect(() => {
     dispatch(getIvaPercentages());
@@ -25,15 +27,15 @@ export const Body = () => {
   };
 
   const hadleSubmitCreateProductType = () => {
-    if (name === "" || selectedIvaPercentageId === null) {
+    if (name === "" || selectedIvaPercentageId === undefined) {
       dispatch(showToast("warn", "Por favor, rellene todos los campos."));
-    } else {
-      const success = dispatch(
-        createProductType(name, isExpirable, selectedIvaPercentageId)
-      );
-      if (success) {
-        setName("");
-      }
+      return;
+    }
+    const success = dispatch(
+      createProductType(name, isExpirable, selectedIvaPercentageId)
+    );
+    if (success) {
+      setName("");
     }
   };
 

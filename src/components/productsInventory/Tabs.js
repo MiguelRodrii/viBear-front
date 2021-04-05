@@ -10,10 +10,16 @@ export const Tabs = ({ siteName = "Inventario de productos" }) => {
   };
 
   const handleCreateProductType = () => {
-    history.push("/productsInventory/productTypes/createProductType");
+    history.push("/productsInventory/productTypes/create");
   };
   const handleManageProductTypes = () => {
-    history.push("/productsInventory/productTypes/manageProductTypes");
+    history.push("/productsInventory/productTypes/manage");
+  };
+  const handleCreateProductDefinition = () => {
+    history.push("/productsInventory/productDefinitions/create");
+  };
+  const handleManageProductDefinitions = () => {
+    history.push("/productsInventory/productDefinitions/manage");
   };
 
   const items = [
@@ -38,10 +44,12 @@ export const Tabs = ({ siteName = "Inventario de productos" }) => {
         {
           label: "Crear nueva definición de producto",
           icon: "pi pi-fw pi-plus",
+          command: handleCreateProductDefinition,
         },
         {
           label: "Administrar definiciones de productos",
           icon: "pi pi-fw pi-eye",
+          command: handleManageProductDefinitions,
         },
       ],
     },
@@ -64,10 +72,6 @@ export const Tabs = ({ siteName = "Inventario de productos" }) => {
   ];
 
   return (
-    <div>
-      <div className="card ">
-        <Menubar start={`${siteName}`} className="p-jc-between" model={items} />
-      </div>
-    </div>
+      <Menubar start={`${siteName}`} className="p-jc-between" model={items} />
   );
 };
