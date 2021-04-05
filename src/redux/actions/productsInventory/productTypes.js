@@ -64,6 +64,7 @@ export const getProductTypes = () => async (dispatch) => {
           name
           is_expirable
           iva_percentage {
+            id
             value
           }
         }
@@ -92,7 +93,7 @@ export const getProductTypes = () => async (dispatch) => {
 export const deleteProductType = (productType) => async (dispatch) => {
   try {
     dispatch({
-      type: groupTypes.DETELE_PRODUCT_TYPE_LOADING,
+      type: groupTypes.DELETE_PRODUCT_TYPE_LOADING,
       payload: { loading: true },
     });
     const response = await API.request(gql`
@@ -102,14 +103,13 @@ export const deleteProductType = (productType) => async (dispatch) => {
     `);
     if (response.deleteProductType) {
       dispatch({
-        type: groupTypes.DETELE_PRODUCT_TYPE_LOADING,
-        payload: { loading: true, success: true },
+        type: groupTypes.DELETE_PRODUCT_TYPE_SUCCESS,
+        payload: { loading: true, success: true, deletedProductTypeId: productType.id },
       });
-      dispatch(getProductTypes());
       return true;
     } else {
       dispatch({
-        type: groupTypes.DETELE_PRODUCT_TYPE_LOADING,
+        type: groupTypes.DELETE_PRODUCT_TYPE_FAILED,
         payload: { loading: true, success: false },
       });
       return false;
@@ -117,7 +117,52 @@ export const deleteProductType = (productType) => async (dispatch) => {
   } catch (error) {
     console.log(error);
     dispatch({
-      type: groupTypes.DETELE_PRODUCT_TYPE_LOADING,
+      type: groupTypes.DELETE_PRODUCT_TYPE_FAILED,
+      payload: { loading: true, success: false },
+    });
+    return false;
+  }
+};
+
+export const updateProductType = (productType) => async (dispatch) => {
+  try {
+    dispatch({
+      type: groupTypes.UPDATE_PRODUCT_TYPE_LOADING,
+      payload: { loading: true },
+    });
+    const response = await API.request(gql`
+      mutation {
+        updateProductType(
+          productType: {
+            id: ${productType.id}
+            name: "${productType.name}"
+            is_expirable: ${productType.is_expirable}
+            iva_percentage_id: ${productType.iva_percentage.id}
+          }
+        ) {
+          id
+          name
+          is_expirable
+          iva_percentage {
+            id
+            value
+          }
+        }
+      }
+    `);
+    dispatch({
+      type: groupTypes.UPDATE_PRODUCT_TYPE_SUCCESS,
+      payload: {
+        loading: true,
+        success: true,
+        updateProductType: response.updateProductType,
+      },
+    });
+    return true;
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: groupTypes.UPDATE_PRODUCT_TYPE_FAILED,
       payload: { loading: true, success: false },
     });
     return false;

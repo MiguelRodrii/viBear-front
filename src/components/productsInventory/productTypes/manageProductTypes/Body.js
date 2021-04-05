@@ -2,25 +2,77 @@ import { Card } from "primereact/card";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Checkbox } from "primereact/checkbox";
+import { InputSwitch } from "primereact/inputswitch";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { confirmDialog } from "primereact/confirmdialog";
+import { Dialog } from "primereact/dialog";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { showToast } from "../../../../redux/actions/toast";
 import {
   getProductTypes,
-  deleteProductType,
+  deleteProductType, updateProductType
 } from "../../../../redux/actions/productsInventory/productTypes";
+import { getIvaPercentages } from "../../../../redux/actions/productsInventory/ivaPercentages";
+import { Dropdown } from "primereact/dropdown";
 
 export const Body = () => {
   const dispatch = useDispatch();
   const [globalFilter, setGlobalFilter] = useState(null);
+  const [selectedProductType, setSelectedProductType] = useState(null);
+  const [isDialogVisible, setIsDialogVisible] = useState(false);
   const { productTypes } = useSelector((state) => state.productTypes);
+  const { ivaPercentages } = useSelector((state) => state.ivaPercentages);
 
   useEffect(() => {
     dispatch(getProductTypes());
-  }, [dispatch]);
+    if (ivaPercentages === null) dispatch(getIvaPercentages());
+  }, [dispatch, ivaPercentages]);
+
+  const renderFooter = () => {
+    return (
+      <div className="p-d-flex">
+        <Button
+          label="Cancelar"
+          icon="pi pi-times"
+          onClick={() => setIsDialogVisible(false)}
+          className="p-button-text"
+        />
+        <Button
+          label="Editar"
+          icon="pi pi-check"
+          onClick={handleUpdateProductType}
+          autoFocus
+        />
+      </div>
+    );
+  };
+
+  const handleUpdateProductType = async () => {
+    if (selectedProductType.name === "") {
+      dispatch(showToast("warn", "Por favor, rellene todos los campos."));
+      return;
+    }
+    const response = await dispatch(updateProductType(selectedProductType));
+    if (response) {
+      dispatch(
+        showToast(
+          "success",
+          `Tipo de producto: ${selectedProductType.name}, actualizado de forma exitosa.`
+        )
+      );
+      setIsDialogVisible(false);
+    } else {
+      dispatch(
+        showToast(
+          "error",
+          `No es posible actualizar el tipo de producto.`
+        )
+      );
+      setIsDialogVisible(false);
+    }
+  };
 
   const handleDeleteProductType = async (rowData) => {
     const response = await dispatch(deleteProductType(rowData));
@@ -108,6 +160,10 @@ export const Body = () => {
           <Button
             icon="pi pi-pencil"
             className="p-button-rounded p-button-success p-mr-2"
+            onClick={() => {
+              setIsDialogVisible(true);
+              setSelectedProductType(rowData);
+            }}
           />
           <Button
             icon="pi pi-trash"
@@ -165,6 +221,86 @@ export const Body = () => {
           </div>
         )}
       </Card>
+
+      <Dialog
+        header="Header"
+        visible={isDialogVisible}
+        onHide={() => setIsDialogVisible(false)}
+        breakpoints={{ "960px": "75vw" }}
+        style={{ width: "50vw" }}
+        footer={renderFooter()}
+      >
+        {selectedProductType === null ? (
+          <h1>Loading...</h1>
+        ) : (
+          <>
+            <div className="p-field">
+              <label className="p-d-block">Nombre</label>
+              <InputText
+                className="p-d-block"
+                value={selectedProductType.name}
+                onChange={(e) =>
+                  setSelectedProductType({
+                    ...selectedProductType,
+                    name: e.target.value,
+                  })
+                }
+                required={true}
+              />
+              <small className="p-d-block">
+                Nombre del tipo de producto. Ejemplo: enlatados.
+              </small>
+            </div>
+
+            <div className="p-field">
+              <label htmlFor="productTypeIsExpirable" className="p-d-block">
+                Es expirable
+              </label>
+              <InputSwitch
+                inputId="productTypeIsExpirable"
+                checked={selectedProductType.is_expirable}
+                onChange={(e) =>
+                  setSelectedProductType({
+                    ...selectedProductType,
+                    is_expirable: e.value,
+                  })
+                }
+              />
+              <small id="productTypeIsExpirable-help" className="p-d-block">
+                Perecibilidad del producto.
+              </small>
+            </div>
+
+            <div className="p-field">
+              <label htmlFor="productTypeIva" className="p-d-block">
+                Porcentaje de IVA aplicado
+              </label>
+              {ivaPercentages === null ? (
+                <h1>Loading...</h1>
+              ) : (
+                <Dropdown
+                  value={selectedProductType.iva_percentage.id}
+                  onChange={(e) => {
+                    setSelectedProductType({
+                      ...selectedProductType,
+                      iva_percentage: {
+                        ...selectedProductType.iva_percentage,
+                        id: e.value,
+                      },
+                    });
+                  }}
+                  options={ivaPercentages}
+                  optionLabel="value"
+                  optionValue="id"
+                />
+              )}
+              <small id="productTypeIva-help" className="p-d-block">
+                Iva que aplica al tipo de producto.
+              </small>
+            </div>
+          </>
+        )}
+      </Dialog>
     </>
   );
 };

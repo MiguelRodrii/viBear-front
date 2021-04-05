@@ -1,6 +1,6 @@
 import { Card } from "primereact/card";
 import { InputText } from "primereact/inputtext";
-import { Checkbox } from "primereact/checkbox";
+import { InputSwitch } from "primereact/inputswitch";
 import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
 import React, { useState, useEffect } from "react";
@@ -28,7 +28,9 @@ export const Body = () => {
     if (name === "" || selectedIvaPercentageId === null) {
       dispatch(showToast("warn", "Por favor, rellene todos los campos."));
     } else {
-      const success = dispatch(createProductType(name, isExpirable, selectedIvaPercentageId));
+      const success = dispatch(
+        createProductType(name, isExpirable, selectedIvaPercentageId)
+      );
       if (success) {
         setName("");
       }
@@ -58,10 +60,9 @@ export const Body = () => {
           <label htmlFor="productTypeIsExpirable" className="p-d-block">
             Es expirable
           </label>
-          <Checkbox
-            inputId="productTypeIsExpirable"
+          <InputSwitch
             checked={isExpirable}
-            onChange={(e) => setIsExpirable(e.checked)}
+            onChange={(e) => setIsExpirable(e.value)}
           />
           <small id="productTypeIsExpirable-help" className="p-d-block">
             Perecibilidad del producto.
@@ -81,7 +82,6 @@ export const Body = () => {
               onChange={onIvaPercentageChange}
               optionLabel="value"
               optionValue="id"
-              placeholder="Seleccione un porcentaje de iva."
             />
           )}
           <small id="productTypeIva-help" className="p-d-block">
