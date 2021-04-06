@@ -74,7 +74,9 @@ export const Body = () => {
           <label className="p-d-block">Descripción</label>
           <Editor
             value={description}
-            onTextChange={(e) => setDescription(e.htmlValue)}
+            onTextChange={(e) => {
+              setDescription(e.htmlValue);
+            }}
           />
           <small className="p-d-block">
             Descripción del producto, puede incluir imágenes.
@@ -98,7 +100,7 @@ export const Body = () => {
             />
           )}
           <small className="p-d-block">
-            Descripción del producto, puede incluir imágenes.
+            Tipo de producto.
           </small>
         </div>
 

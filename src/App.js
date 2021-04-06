@@ -6,6 +6,7 @@ import { Create as CreateProductType } from "./pages/productsInventory/productTy
 import { Manage as ManageProductTypes } from "./pages/productsInventory/productTypes/Manage";
 import { Create as CreateProductDefinition } from "./pages/productsInventory/productDefinitions/Create";
 import { Manage as ManageProductDefinition } from "./pages/productsInventory/productDefinitions/Manage";
+import {Create as CreateProduct} from "./pages/productsInventory/products/Create";
 
 function App() {
   return (
@@ -28,6 +29,9 @@ function App() {
         </Route>
         <Route exact path="/productsInventory/productDefinitions/manage">
           <ManageProductDefinition></ManageProductDefinition>
+        </Route>
+        <Route exact path="/productsInventory/products/create">
+          <CreateProduct></CreateProduct>
         </Route>
         <Route path="*">
           <ProductsInventory></ProductsInventory>

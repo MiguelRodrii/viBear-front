@@ -21,7 +21,9 @@ export const Tabs = ({ siteName = "Inventario de productos" }) => {
   const handleManageProductDefinitions = () => {
     history.push("/productsInventory/productDefinitions/manage");
   };
-
+  const handleCreateProducts = () => {
+    history.push("/productsInventory/products/create");
+  };
   const items = [
     {
       label: "Productos",
@@ -30,6 +32,7 @@ export const Tabs = ({ siteName = "Inventario de productos" }) => {
         {
           label: "Crear nuevo producto",
           icon: "pi pi-fw pi-plus",
+          command: handleCreateProducts,
         },
         {
           label: "Administrar productos",
@@ -72,6 +75,6 @@ export const Tabs = ({ siteName = "Inventario de productos" }) => {
   ];
 
   return (
-      <Menubar start={`${siteName}`} className="p-jc-between" model={items} />
+    <Menubar start={`${siteName}`} className="p-jc-between" model={items} />
   );
 };

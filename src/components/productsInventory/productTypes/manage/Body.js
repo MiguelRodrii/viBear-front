@@ -12,7 +12,8 @@ import React, { useEffect, useState } from "react";
 import { showToast } from "../../../../redux/actions/toast";
 import {
   getProductTypes,
-  deleteProductType, updateProductType
+  deleteProductType,
+  updateProductType,
 } from "../../../../redux/actions/productsInventory/productTypes";
 import { getIvaPercentages } from "../../../../redux/actions/productsInventory/ivaPercentages";
 import { Dropdown } from "primereact/dropdown";
@@ -65,10 +66,7 @@ export const Body = () => {
       setIsDialogVisible(false);
     } else {
       dispatch(
-        showToast(
-          "error",
-          `No es posible actualizar el tipo de producto.`
-        )
+        showToast("error", `No es posible actualizar el tipo de producto.`)
       );
       setIsDialogVisible(false);
     }
@@ -188,6 +186,7 @@ export const Body = () => {
         ) : (
           <div className="datatable-responsive">
             <DataTable
+              emptyMessage="No hay registros disponibles para mostrar"
               header={header}
               globalFilter={globalFilter}
               value={productTypes}
