@@ -116,8 +116,6 @@ export const Body = () => {
               value={selectedProductDefinition}
               options={simpleProductDefinitions}
               optionLabel="name"
-              filter={true}
-              filterBy="name"
               placeholder="Seleccione una definición."
               onChange={(e) => {
                 setSelectedProductDefinition(e.value);
