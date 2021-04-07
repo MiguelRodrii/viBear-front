@@ -97,7 +97,7 @@ export const Body = () => {
     );
     setAmount(1);
     setPurchasePrice(0.01);
-    setSalePrice(0.01)
+    setSalePrice(0.01);
     setExpirationDate(null);
   };
 
@@ -127,7 +127,7 @@ export const Body = () => {
         </div>
 
         <div className="p-field">
-          <label className="p-d-block">Amount</label>
+          <label className="p-d-block">Cantidad</label>
           <InputNumber
             id="minmax-buttons"
             value={amount}
@@ -196,6 +196,7 @@ export const Body = () => {
             <div className="p-field">
               <label className="p-d-block">Fecha de expiración</label>
               <Calendar
+                dateFormat="dd/mm/yy"
                 touchUI
                 minDate={new Date()}
                 id="icon"

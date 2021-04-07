@@ -24,6 +24,10 @@ export const Tabs = ({ siteName = "Inventario de productos" }) => {
   const handleCreateProducts = () => {
     history.push("/productsInventory/products/create");
   };
+
+  const handleManageProducts = () => {
+    history.push("/productsInventory/products/manage");
+  };
   const items = [
     {
       label: "Productos",
@@ -37,6 +41,7 @@ export const Tabs = ({ siteName = "Inventario de productos" }) => {
         {
           label: "Administrar productos",
           icon: "pi pi-fw pi-eye",
+          command: handleManageProducts
         },
       ],
     },
