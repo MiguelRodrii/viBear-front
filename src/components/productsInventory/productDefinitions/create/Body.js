@@ -91,6 +91,9 @@ export const Body = () => {
             <Dropdown
               value={selectedProductTypeId}
               options={simpleProductTypes}
+              filter
+              filterInputAutoFocus={false}
+              showFilterClear={true}
               onChange={(e) => {
                 setSelectedProductTypeId(e.value);
               }}
@@ -99,9 +102,7 @@ export const Body = () => {
               optionValue="id"
             />
           )}
-          <small className="p-d-block">
-            Tipo de producto.
-          </small>
+          <small className="p-d-block">Tipo de producto.</small>
         </div>
 
         <Button label="Crear" onClick={hadleSubmitCreateProductDefinition} />

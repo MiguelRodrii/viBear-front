@@ -112,15 +112,20 @@ export const Body = () => {
           {simpleProductDefinitions === null ? (
             <ProgressSpinner />
           ) : (
-            <Dropdown
-              value={selectedProductDefinition}
-              options={simpleProductDefinitions}
-              optionLabel="name"
-              placeholder="Seleccione una definición."
-              onChange={(e) => {
-                setSelectedProductDefinition(e.value);
-              }}
-            ></Dropdown>
+            <>
+              <Dropdown
+                value={selectedProductDefinition}
+                options={simpleProductDefinitions}
+                optionLabel="name"
+                filter
+                filterInputAutoFocus={false}
+                showFilterClear={true}
+                placeholder="Seleccione una definición."
+                onChange={(e) => {
+                  setSelectedProductDefinition(e.value);
+                }}
+              ></Dropdown>
+            </>
           )}
         </div>
 
