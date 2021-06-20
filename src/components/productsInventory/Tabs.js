@@ -1,5 +1,5 @@
 import { Menubar } from "primereact/menubar";
-import { useHistory } from "react-router-dom";
+import React, { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 
 export const Tabs = ({ siteName = "Inventario de productos" }) => {

@@ -58,7 +58,7 @@ export const productTypesReducer = (state = initialState, action) => {
     case groupTypes.UPDATE_PRODUCT_TYPE_LOADING:
       return { ...state, loading: action.payload.loading };
     case groupTypes.UPDATE_PRODUCT_TYPE_SUCCESS:
-      let productType = state.productTypes.find(
+      var productType = state.productTypes.find(
         (element) => element.id === action.payload.updateProductType.id
       );
       productType.name = action.payload.updateProductType.name;

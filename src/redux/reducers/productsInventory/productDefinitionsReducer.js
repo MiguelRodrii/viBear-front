@@ -58,7 +58,7 @@ export const productDefinitionsReducer = (state = initialState, action) => {
     case groupTypes.UPDATE_PRODUCT_DEFINITION_LOADING:
       return { ...state, loading: action.payload.loading };
     case groupTypes.UPDATE_PRODUCT_DEFINITION_SUCCESS:
-      let found = state.productDefinitions.find(
+      var found = state.productDefinitions.find(
         (element) => element.id === action.payload.updatedProductDefinition.id
       );
       found.name = action.payload.updatedProductDefinition.name;

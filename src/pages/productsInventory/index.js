@@ -1,5 +1,6 @@
 import { MainMenu } from "../../components/MainMenu";
 import { Tabs } from "../../components/productsInventory/Tabs";
+import React from "react";
 
 export const ProductsInventory = () => {
   return (

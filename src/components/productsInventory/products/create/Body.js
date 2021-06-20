@@ -4,7 +4,7 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import { InputNumber } from "primereact/inputnumber";
 import { Calendar } from "primereact/calendar";
 import { InputSwitch } from "primereact/inputswitch";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSimpleProductDefinitions } from "../../../../redux/actions/productsInventory/productDefinitions";
 import { Button } from "primereact/button";

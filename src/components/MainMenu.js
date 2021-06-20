@@ -1,6 +1,6 @@
 import { Menu } from "primereact/menu";
 import { Button } from "primereact/button";
-import { useRef } from "react";
+import React, { useRef } from "react";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -12,7 +12,7 @@ export const MainMenu = ({
   const history = useHistory();
 
   MainMenu.propTypes = {
-    siteName: PropTypes.string,
+    moduleName: PropTypes.string,
     iconName: PropTypes.string,
   };
 

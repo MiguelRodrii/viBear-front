@@ -1,6 +1,7 @@
 import { MainMenu } from "../../../components/MainMenu";
 import { Tabs } from "../../../components/productsInventory/Tabs";
 import { Body } from "../../../components/productsInventory/productTypes/manage/Body";
+import React from "react";
 
 export const Manage = () => {
   return (

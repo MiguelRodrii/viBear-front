@@ -57,7 +57,7 @@ export const productsReducer = (state = initialState, action) => {
       case groupTypes.UPDATE_PRODUCT_LOADING:
       return { ...state, loading: action.payload.loading };
     case groupTypes.UPDATE_PRODUCT_SUCCESS:
-      const result = state.products.find((element)=>{return element.id === action.payload.updatedProduct.id});
+      var result = state.products.find((element)=>{return element.id === action.payload.updatedProduct.id});
       result.purchase_price = action.payload.updatedProduct.purchase_price;
       result.sale_price = action.payload.updatedProduct.sale_price;
       result.current_amount = action.payload.updatedProduct.current_amount;

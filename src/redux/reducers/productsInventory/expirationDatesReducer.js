@@ -57,7 +57,7 @@ export const expirationDatesReducer = (state = initialState, action) => {
     case groupTypes.UPDATE_EXPIRATION_DATE_LOADING:
       return { ...state, loading: action.payload.loading };
     case groupTypes.UPDATE_EXPIRATION_DATE_SUCCESS:
-      const result = state.expirationDates.find((element) => {
+      var result = state.expirationDates.find((element) => {
         return element.id === action.payload.updatedExpirationDate.id;
       });
       if (result !== undefined) {
