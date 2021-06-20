@@ -149,6 +149,9 @@ export const updateProduct = (
             product_type {
               name
               is_expirable
+              iva_percentage {
+                value
+              }
             }
           }
         }

@@ -188,7 +188,6 @@ export const Body = () => {
   };
 
   const showConfirmDialog = (rowData) => {
-    console.log(rowData);
     confirmDialog({
       message: `¿Está seguro/a de eliminar el producto: ${rowData.product_definition.name}?`,
       header: "Confirmación",
@@ -445,7 +444,6 @@ export const Body = () => {
                         id: e.value,
                       },
                     });
-                    console.log(e.value);
                   }}
                 ></Dropdown>
               )}
