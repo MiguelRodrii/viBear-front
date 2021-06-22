@@ -1,18 +1,13 @@
 import { combineReducers } from "redux";
 import { toastReducer } from "./toastReducer";
-import { ivaPercentagesReducer } from "./productsInventory/ivaPercentagesReducer";
-import { productTypesReducer } from "./productsInventory/productTypesReducer";
-import {productDefinitionsReducer} from "./productsInventory/productDefinitionsReducer";
-import { productsReducer } from "./productsInventory/productsReducer";
-import {expirationDatesReducer} from "./productsInventory/expirationDatesReducer";
+import {navigationReducer} from "./navigationReducer.js";
+
+import { productsInventoryReducer } from "./productsInventory/index.js";
 
 const reducers = combineReducers({
   toast: toastReducer,
-  ivaPercentages: ivaPercentagesReducer,
-  productTypes: productTypesReducer,
-  productDefinitions: productDefinitionsReducer,
-  products: productsReducer,
-  expirationDates: expirationDatesReducer
+  navigation: navigationReducer,
+  productsInventory: productsInventoryReducer
 });
 
 const rootReducer = (state, action) => {

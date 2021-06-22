@@ -15,7 +15,7 @@ import { createExpirationDate } from "../../../../redux/actions/productsInventor
 export const Body = () => {
   const dispatch = useDispatch();
   const { simpleProductDefinitions } = useSelector(
-    (state) => state.productDefinitions
+    (state) => state.productsInventory.productDefinitions
   );
   const [selectedProductDefinition, setSelectedProductDefinition] = useState(
     null

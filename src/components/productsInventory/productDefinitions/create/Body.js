@@ -14,7 +14,7 @@ export const Body = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [selectedProductTypeId, setSelectedProductTypeId] = useState(undefined);
-  const { simpleProductTypes } = useSelector((state) => state.productTypes);
+  const { simpleProductTypes } = useSelector((state) => state.productsInventory.productTypes);
 
   useEffect(() => {
     dispatch(getSimpleProductTypes());

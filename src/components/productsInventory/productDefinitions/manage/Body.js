@@ -28,9 +28,9 @@ export const Body = () => {
     null
   );
   const { productDefinitions } = useSelector(
-    (state) => state.productDefinitions
+    (state) => state.productsInventory.productDefinitions
   );
-  const { simpleProductTypes } = useSelector((state) => state.productTypes);
+  const { simpleProductTypes } = useSelector((state) => state.productsInventory.productTypes);
 
   useEffect(() => {
     dispatch(getProductDefinitions());

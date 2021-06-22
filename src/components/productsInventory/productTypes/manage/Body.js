@@ -23,8 +23,8 @@ export const Body = () => {
   const [globalFilter, setGlobalFilter] = useState(null);
   const [selectedProductType, setSelectedProductType] = useState(null);
   const [isDialogVisible, setIsDialogVisible] = useState(false);
-  const { productTypes } = useSelector((state) => state.productTypes);
-  const { ivaPercentages } = useSelector((state) => state.ivaPercentages);
+  const { productTypes } = useSelector((state) => state.productsInventory.productTypes);
+  const { ivaPercentages } = useSelector((state) => state.productsInventory.ivaPercentages);
 
   useEffect(() => {
     dispatch(getProductTypes());

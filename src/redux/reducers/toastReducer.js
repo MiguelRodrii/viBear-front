@@ -1,4 +1,4 @@
-import * as toastTypes from "../actions/types/toast";
+import * as toastTypes from "../constants/toast.js";
 const initialState = {
     isOpen: false,
     typeMessage: "",

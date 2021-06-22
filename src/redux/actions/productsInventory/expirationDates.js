@@ -1,6 +1,6 @@
 import API from "../../../services";
 import { gql } from "graphql-request";
-import * as groupTypes from "./types/expirationDates";
+import * as groupTypes from "../../constants/productsInventory/expirationDates.js";
 
 export const createExpirationDate = (expirationDate, productId) => async (
   dispatch

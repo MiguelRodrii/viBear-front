@@ -1,6 +1,6 @@
 import API from "../../../services";
 import { gql } from "graphql-request";
-import * as groupTypes from "./types/productTypes";
+import * as groupTypes from "../../constants/productsInventory/productTypes.js";
 import { showToast } from "../toast";
 
 export const createProductType = (name, isExpirable, ivaPercentageId) => async (

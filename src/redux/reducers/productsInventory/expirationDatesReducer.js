@@ -1,4 +1,4 @@
-import * as groupTypes from "../../actions/productsInventory/types/expirationDates";
+import * as groupTypes from "../../constants/productsInventory/expirationDates.js";
 
 const initialState = {
   loading: false,

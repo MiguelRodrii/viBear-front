@@ -1,6 +1,6 @@
 import API from "../../../services";
 import { gql } from "graphql-request";
-import * as groupTypes from "./types/ivaPercentages";
+import * as groupTypes from "../../constants/productsInventory/ivaPercentages.js";
 
 export const getIvaPercentages = () => async (dispatch) => {
   try {

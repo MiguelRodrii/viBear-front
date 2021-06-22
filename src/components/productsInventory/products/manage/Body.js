@@ -37,10 +37,10 @@ export const Body = () => {
   const [globalFilter, setGlobalFilter] = useState(null);
   const [purchasePriceHasIva, setPurchasePriceHasIva] = useState(false);
   const [salePriceHasIva, setSalePriceHasIva] = useState(false);
-  const { products } = useSelector((state) => state.products);
-  const { expirationDates } = useSelector((state) => state.expirationDates);
+  const { products } = useSelector((state) => state.productsInventory.products);
+  const { expirationDates } = useSelector((state) => state.productsInventory.expirationDates);
   const { simpleProductDefinitions } = useSelector(
-    (state) => state.productDefinitions
+    (state) => state.productsInventory.productDefinitions
   );
 
   useEffect(() => {

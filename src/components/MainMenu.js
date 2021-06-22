@@ -2,43 +2,32 @@ import { Menu } from "primereact/menu";
 import { Button } from "primereact/button";
 import React, { useRef } from "react";
 import { useHistory } from "react-router-dom";
-import PropTypes from "prop-types";
+import {useSelector} from "react-redux"
 
-export const MainMenu = ({
-  moduleName = "Dashboard",
-  iconName = "pi-home",
-}) => {
+export const MainMenu = () => {
   const menu = useRef(null);
   const history = useHistory();
-
-  MainMenu.propTypes = {
-    moduleName: PropTypes.string,
-    iconName: PropTypes.string,
-  };
-
-  const handleCreateProductType = () => {
-    history.push("/productsInventory");
-  };
+  const { mainMenu } = useSelector((state) => state.navigation);
 
   const items = [
     {
       label: "Inventario de productos",
       icon: "pi pi-fw pi-th-large",
-      command: handleCreateProductType,
+      command: () => { history.push(`/productsInventory`)},
     },
   ];
 
   return (
     <div className="p-fluid">
       <Button
-        icon={`pi ${iconName}`}
+        icon={`pi ${mainMenu.iconName}`}
         onClick={(event) => menu.current.toggle(event)}
         className="p-d-none p-d-md-inline-flex"
-        label={`${moduleName}`}
+        label={`${mainMenu.moduleName}`}
       />
       <Menu model={items} popup ref={menu} className="p-mt-1" />
       <Button
-        icon={`pi ${iconName}`}
+        icon={`pi ${mainMenu.iconName}`}
         onClick={(event) => menu.current.toggle(event)}
         className="p-d-md-none"
       />

@@ -1,4 +1,4 @@
-import * as toastTypes from "./types/toast";
+import * as toastTypes from "../constants/toast.js";
 
 export const showToast = (typeMessage, message) => {
     return dispatch => {

@@ -1,4 +1,4 @@
-import * as groupTypes from "../../actions/productsInventory/types/ivaPercentages";
+import * as groupTypes from "../../constants/productsInventory/ivaPercentages.js";
 
 const initialState = {
   loading: false,

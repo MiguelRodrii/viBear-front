@@ -1,4 +1,4 @@
-import * as groupTypes from "../../actions/productsInventory/types/productDefinitions";
+import * as groupTypes from "../../constants/productsInventory/productDefinitions.js";
 
 const initialState = {
   loading: false,

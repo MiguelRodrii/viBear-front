@@ -11,7 +11,7 @@ import { createProductType } from "../../../../redux/actions/productsInventory/p
 
 export const Body = () => {
   const dispatch = useDispatch();
-  const { ivaPercentages } = useSelector((state) => state.ivaPercentages);
+  const { ivaPercentages } = useSelector((state) => state.productsInventory.ivaPercentages);
   const [name, setName] = useState("");
   const [isExpirable, setIsExpirable] = useState(true);
   const [selectedIvaPercentageId, setselectedIvaPercentageId] = useState(

@@ -1,6 +1,6 @@
 import API from "../../../services";
 import { gql } from "graphql-request";
-import * as groupTypes from "./types/productDefinitions";
+import * as groupTypes from "../../constants/productsInventory/productDefinitions.js";
 
 export const createProductDefinition = (
   name,

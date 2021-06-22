@@ -1,44 +1,29 @@
 import React, { Switch, Route } from "react-router-dom";
 
-// Pages
-import { ProductsInventory } from "./pages/productsInventory";
-import { Create as CreateProductType } from "./pages/productsInventory/productTypes/Create";
-import { Manage as ManageProductTypes } from "./pages/productsInventory/productTypes/Manage";
-import { Create as CreateProductDefinition } from "./pages/productsInventory/productDefinitions/Create";
-import { Manage as ManageProductDefinition } from "./pages/productsInventory/productDefinitions/Manage";
-import {Create as CreateProducts} from "./pages/productsInventory/products/Create";
-import {Manage as ManageProducts} from "./pages/productsInventory/products/Manage";
+// Main components
+import { MainMenu } from "./components/MainMenu.js";
+import { Tabs } from "./components/Tabs.js";
+
+// Routers
+import { ProductsInventoryRouter } from "./routers/ProductsInventoryRouter.js";
 
 function App() {
   return (
     <>
+      <div className="p-grid p-d-flex p-ai-center p-jc-between p-mb-2">
+        <div className="p-ml-2">
+          <MainMenu></MainMenu>
+        </div>
+        <div className="p-col">
+          <Tabs siteName="Creación de definiciones de productos"></Tabs>
+        </div>
+      </div>
       <Switch>
         <Route exact path="/">
-          <ProductsInventory></ProductsInventory>
+          <ProductsInventoryRouter></ProductsInventoryRouter>
         </Route>
-        <Route exact path="/productsInventory">
-          <ProductsInventory></ProductsInventory>
-        </Route>
-        <Route exact path="/productsInventory/productTypes/create">
-          <CreateProductType></CreateProductType>
-        </Route>
-        <Route exact path="/productsInventory/productTypes/manage">
-          <ManageProductTypes></ManageProductTypes>
-        </Route>
-        <Route exact path="/productsInventory/productDefinitions/create">
-          <CreateProductDefinition></CreateProductDefinition>
-        </Route>
-        <Route exact path="/productsInventory/productDefinitions/manage">
-          <ManageProductDefinition></ManageProductDefinition>
-        </Route>
-        <Route exact path="/productsInventory/products/create">
-          <CreateProducts/>
-        </Route>
-        <Route exact path="/productsInventory/products/manage">
-          <ManageProducts/>
-        </Route>
-        <Route path="*">
-          <ProductsInventory></ProductsInventory>
+        <Route path="/productsInventory">
+          <ProductsInventoryRouter></ProductsInventoryRouter>
         </Route>
       </Switch>
     </>
