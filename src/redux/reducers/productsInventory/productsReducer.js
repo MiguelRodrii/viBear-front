@@ -11,10 +11,16 @@ export const productsReducer = (state = initialState, action) => {
     case groupTypes.CREATE_PRODUCT_LOADING:
       return { ...state, loading: action.payload.loading };
     case groupTypes.CREATE_PRODUCT_SUCCESS:
+      var products = null;
+      if (state.products !== null) {
+        products = state.products.split();
+        products.unshift(action.payload.createdProduct);
+      }
       return {
         ...state,
         loading: action.payload.loading,
         success: action.payload.success,
+        products: products,
       };
     case groupTypes.CREATE_PRODUCT_FAILED:
       return {
@@ -54,21 +60,21 @@ export const productsReducer = (state = initialState, action) => {
         loading: action.payload.loading,
         success: action.payload.success,
       };
-      case groupTypes.UPDATE_PRODUCT_LOADING:
+    case groupTypes.UPDATE_PRODUCT_LOADING:
       return { ...state, loading: action.payload.loading };
     case groupTypes.UPDATE_PRODUCT_SUCCESS:
-      var result = state.products.find((element)=>{return element.id === action.payload.updatedProduct.id});
+      var result = state.products.find((element) => {
+        return element.id === action.payload.updatedProduct.id;
+      });
       result.purchase_price = action.payload.updatedProduct.purchase_price;
       result.sale_price = action.payload.updatedProduct.sale_price;
       result.current_amount = action.payload.updatedProduct.current_amount;
-      result.product_definition = action.payload.updatedProduct.product_definition;
+      result.product_definition =
+        action.payload.updatedProduct.product_definition;
       return {
         ...state,
         loading: action.payload.loading,
         success: action.payload.success,
-        products: state.products.filter((element) => {
-          return element.id !== action.payload.deletedProductId;
-        }),
       };
     case groupTypes.UPDATE_PRODUCT_FAILED:
       return {

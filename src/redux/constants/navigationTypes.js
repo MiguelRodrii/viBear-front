@@ -1,3 +1,4 @@
 export const UPDATE_MAIN_MENU = "UPDATE_MAIN_MENU";
 export const UPDATE_TABS_SITE_NAME = "UPDATE_TABS_SITE_NAME";
 export const UPDATE_TABS_ITEMS = "UPDATE_TABS_ITEMS";
+export const SYNC = "SYNC";

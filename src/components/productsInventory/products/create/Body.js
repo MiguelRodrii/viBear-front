@@ -6,30 +6,35 @@ import { Calendar } from "primereact/calendar";
 import { InputSwitch } from "primereact/inputswitch";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getSimpleProductDefinitions } from "../../../../redux/actions/productsInventory/productDefinitions";
+import { getProductDefinitions } from "../../../../redux/actions/productsInventory/productDefinitions";
 import { Button } from "primereact/button";
 import { showToast } from "../../../../redux/actions/toast";
 import { createProduct } from "../../../../redux/actions/productsInventory/products";
 import { createExpirationDate } from "../../../../redux/actions/productsInventory/expirationDates";
+import { useDidMountEffect } from "../../../../hooks/useDidMountEffect.js";
 
 export const Body = () => {
   const dispatch = useDispatch();
-  const { simpleProductDefinitions } = useSelector(
+  const { productDefinitions } = useSelector(
     (state) => state.productsInventory.productDefinitions
   );
-  const [selectedProductDefinition, setSelectedProductDefinition] = useState(
-    null
-  );
+  const [selectedProductDefinition, setSelectedProductDefinition] =
+    useState(null);
   const [amount, setAmount] = useState(1);
   const [purchasePrice, setPurchasePrice] = useState(0.01);
   const [purchasePriceHasIva, setPurchasePriceHasIva] = useState(false);
   const [salePrice, setSalePrice] = useState(0.01);
   const [salePriceHasIva, setSalePriceHasIva] = useState(false);
   const [expirationDate, setExpirationDate] = useState(null);
+  const sync = useSelector((state) => state.navigation).mainMenu.sync;
 
   useEffect(() => {
-    dispatch(getSimpleProductDefinitions());
-  }, [dispatch]);
+    if (productDefinitions === null) getProductDefinitions()(dispatch);
+  }, []);
+
+  useDidMountEffect(() => {
+    getProductDefinitions()(dispatch);
+  }, [sync]);
 
   const handleSubmitCreateProduct = async () => {
     if (selectedProductDefinition === null) {
@@ -109,13 +114,13 @@ export const Body = () => {
       <Card className="p-mt-2">
         <div className="p-field">
           <label className="p-d-block">Definición de producto</label>
-          {simpleProductDefinitions === null ? (
+          {productDefinitions === null ? (
             <ProgressSpinner />
           ) : (
             <>
               <Dropdown
                 value={selectedProductDefinition}
-                options={simpleProductDefinitions}
+                options={productDefinitions}
                 optionLabel="name"
                 filter
                 filterInputAutoFocus={false}

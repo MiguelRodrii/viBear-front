@@ -32,3 +32,11 @@ export const updateTabsItems = (items) => (dispatch) => {
     console.log(error);
   }
 };
+
+export const sync = (sync) => dispatch => {
+  try {
+      dispatch({type: navigationTypes.SYNC, payload: {sync: sync}});
+  } catch (error) {
+      console.log(error);
+  }
+};

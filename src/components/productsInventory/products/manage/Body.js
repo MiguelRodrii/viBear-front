@@ -20,12 +20,13 @@ import {
   updateProduct,
 } from "../../../../redux/actions/productsInventory/products";
 import { showToast } from "../../../../redux/actions/toast";
-import { getSimpleProductDefinitions } from "../../../../redux/actions/productsInventory/productDefinitions";
+import { getProductDefinitions } from "../../../../redux/actions/productsInventory/productDefinitions";
 import { Dropdown } from "primereact/dropdown";
 import { InputNumber } from "primereact/inputnumber";
 import { InputSwitch } from "primereact/inputswitch";
 import { Calendar } from "primereact/calendar";
-import { round } from 'mathjs'
+import { round } from "mathjs";
+import { useDidMountEffect } from "../../../../hooks/useDidMountEffect.js";
 
 export const Body = () => {
   const dispatch = useDispatch();
@@ -38,16 +39,25 @@ export const Body = () => {
   const [purchasePriceHasIva, setPurchasePriceHasIva] = useState(false);
   const [salePriceHasIva, setSalePriceHasIva] = useState(false);
   const { products } = useSelector((state) => state.productsInventory.products);
-  const { expirationDates } = useSelector((state) => state.productsInventory.expirationDates);
-  const { simpleProductDefinitions } = useSelector(
+  const { expirationDates } = useSelector(
+    (state) => state.productsInventory.expirationDates
+  );
+  const { productDefinitions } = useSelector(
     (state) => state.productsInventory.productDefinitions
   );
+  const sync = useSelector((state) => state.navigation).mainMenu.sync;
 
   useEffect(() => {
-    dispatch(getProducts());
-    dispatch(getExpirationDates());
-    dispatch(getSimpleProductDefinitions());
-  }, [dispatch]);
+    if (products === null) getProducts()(dispatch);
+    if (expirationDates === null) getExpirationDates()(dispatch);
+    if (productDefinitions === null) getProductDefinitions()(dispatch);
+  }, []);
+
+  useDidMountEffect(() => {
+    getProducts()(dispatch);
+    getExpirationDates()(dispatch);
+    getProductDefinitions()(dispatch);
+  }, [sync]);
 
   const renderHeader = () => {
     return (
@@ -102,7 +112,14 @@ export const Body = () => {
       <React.Fragment>
         <div className="p-d-flex p-jc-between p-ai-center">
           <span className="p-column-title">Precio de venta con iva</span>
-          {round(rowData.sale_price + (rowData.sale_price * rowData.product_definition.product_type.iva_percentage.value/100),2)} $
+          {round(
+            rowData.sale_price +
+              (rowData.sale_price *
+                rowData.product_definition.product_type.iva_percentage.value) /
+                100,
+            2
+          )}{" "}
+          $
         </div>
       </React.Fragment>
     );
@@ -200,46 +217,48 @@ export const Body = () => {
   };
 
   const handleUpdateProduct = async () => {
-    if (calendarExpirationDate === null) {
-      dispatch(
-        showToast(
-          "warn",
-          "Por favor rellene todos los campos para poder continuar. (Fecha de expiración)"
-        )
-      );
-      return;
-    }
-    if (expirationDate === null) {
-      const response1 = await dispatch(
-        createExpirationDate(calendarExpirationDate, selectedProduct.id)
-      );
-      if (response1 === undefined) {
+    if (selectedProduct.product_definition.product_type.is_expirable) {
+      if (calendarExpirationDate === null) {
         dispatch(
           showToast(
-            "error",
-            "Ha ocurrido un error en el proceso de actualización. (Fecha de expiración)"
+            "warn",
+            "Por favor rellene todos los campos para poder continuar. (Fecha de expiración)"
           )
         );
         return;
       }
-    } else {
-      const response2 = await dispatch(
-        updateExpirationDate(
-          expirationDate.id,
-          calendarExpirationDate.toDateString()
-        )
-      );
-      if (!response2) {
-        dispatch(
-          showToast(
-            "error",
-            "Ha ocurrido un error en el proceso de actualización. (Fecha de expiración)"
+      if (expirationDate === null) {
+        const response1 = await dispatch(
+          createExpirationDate(calendarExpirationDate, selectedProduct.id)
+        );
+        if (response1 === undefined) {
+          dispatch(
+            showToast(
+              "error",
+              "Ha ocurrido un error en el proceso de actualización. (Fecha de expiración)"
+            )
+          );
+          return;
+        }
+      } else {
+        const response2 = await dispatch(
+          updateExpirationDate(
+            expirationDate.id,
+            calendarExpirationDate.toDateString()
           )
         );
-        return;
+        if (!response2) {
+          dispatch(
+            showToast(
+              "error",
+              "Ha ocurrido un error en el proceso de actualización. (Fecha de expiración)"
+            )
+          );
+          return;
+        }
       }
     }
-    const ivaPercentageValue = simpleProductDefinitions.find((element) => {
+    const ivaPercentageValue = productDefinitions.find((element) => {
       return element.id === selectedProduct.product_definition.id;
     }).product_type.iva_percentage.value;
     const response3 = await dispatch(
@@ -425,23 +444,32 @@ export const Body = () => {
           <>
             <div className="p-field">
               <label className="p-d-block">Definición de producto</label>
-              {simpleProductDefinitions === null ? (
+              {productDefinitions === null ? (
                 <ProgressSpinner />
               ) : (
+                // selectedProduct.product_definition.product_type.is_expirable
                 <Dropdown
                   value={selectedProduct.product_definition.id}
-                  options={simpleProductDefinitions}
+                  options={productDefinitions}
                   optionLabel="name"
                   filter={true}
                   filterBy="name"
                   optionValue="id"
                   placeholder="Seleccione una definición."
                   onChange={(e) => {
+                    const selectedProductDefinition = productDefinitions.find(
+                      (element) => e.value === element.id
+                    );
                     setSelectedProduct({
                       ...selectedProduct,
                       product_definition: {
                         ...selectedProduct.product_definition,
                         id: e.value,
+                        product_type: {
+                          ...selectedProduct.product_definition.product_type,
+                          is_expirable:
+                            selectedProductDefinition.product_type.is_expirable,
+                        },
                       },
                     });
                   }}

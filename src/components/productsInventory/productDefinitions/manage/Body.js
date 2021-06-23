@@ -15,27 +15,34 @@ import { confirmDialog } from "primereact/confirmdialog";
 import { showToast } from "../../../../redux/actions/toast";
 import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
-import { getSimpleProductTypes } from "../../../../redux/actions/productsInventory/productTypes";
+import {getProductTypes} from "../../../../redux/actions/productsInventory/productTypes.js";
+import { useDidMountEffect } from "../../../../hooks/useDidMountEffect.js";
 
 export const Body = () => {
   const dispatch = useDispatch();
   const [globalFilter, setGlobalFilter] = useState(null);
-  const [isDescriptionDialogVisible, setIsDescriptionDialogVisible] = useState(
-    false
-  );
+  const [isDescriptionDialogVisible, setIsDescriptionDialogVisible] =
+    useState(false);
   const [isUpdateDialogVisible, setIsUpdateDialogVisible] = useState(false);
-  const [selectedProductDefinition, setSelectedProductDefinition] = useState(
-    null
-  );
+  const [selectedProductDefinition, setSelectedProductDefinition] =
+    useState(null);
   const { productDefinitions } = useSelector(
     (state) => state.productsInventory.productDefinitions
   );
-  const { simpleProductTypes } = useSelector((state) => state.productsInventory.productTypes);
+  const { productTypes } = useSelector(
+    (state) => state.productsInventory.productTypes
+  );
+  const sync = useSelector((state) => state.navigation).mainMenu.sync;
 
   useEffect(() => {
-    dispatch(getProductDefinitions());
-    dispatch(getSimpleProductTypes());
-  }, [dispatch]);
+    if (productDefinitions === null) getProductDefinitions()(dispatch);
+    if (productTypes === null) getProductTypes()(dispatch);
+  }, []);
+
+  useDidMountEffect(() => {
+    getProductDefinitions()(dispatch);
+    getProductTypes()(dispatch);
+  }, [sync]);
 
   const nameBodyTemplate = (rowData) => {
     return (
@@ -304,12 +311,12 @@ export const Body = () => {
 
             <div className="p-field card">
               <label className="p-d-block">Tipo de producto</label>
-              {simpleProductTypes === null ? (
+              {productTypes === null ? (
                 <h1>Loading...</h1>
               ) : (
                 <Dropdown
                   value={selectedProductDefinition.product_type.id}
-                  options={simpleProductTypes}
+                  options={productTypes}
                   onChange={(e) => {
                     setSelectedProductDefinition({
                       ...selectedProductDefinition,

@@ -4,6 +4,7 @@ const initialState = {
   mainMenu: {
     moduleName: "",
     iconName: "",
+    sync: true,
   },
   tabs: {
     siteName: "",
@@ -14,7 +15,7 @@ const initialState = {
 export const navigationReducer = (state = initialState, action) => {
   switch (action.type) {
     case navigationTypes.UPDATE_MAIN_MENU:
-      return { ...state, mainMenu: action.payload.mainMenu };
+      return { ...state, mainMenu: {...state.mainMenu, moduleName: action.payload.mainMenu.moduleName, iconName: action.payload.mainMenu.iconName}};
     case navigationTypes.UPDATE_TABS_SITE_NAME:
       return {
         ...state,
@@ -24,6 +25,11 @@ export const navigationReducer = (state = initialState, action) => {
       return {
         ...state,
         tabs: { ...state.tabs, items: action.payload.items },
+      };
+    case navigationTypes.SYNC:
+      return {
+        ...state,
+        mainMenu: { ...state.mainMenu, sync: action.payload.sync },
       };
     default:
       return state;

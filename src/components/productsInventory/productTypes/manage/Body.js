@@ -17,19 +17,30 @@ import {
 } from "../../../../redux/actions/productsInventory/productTypes";
 import { getIvaPercentages } from "../../../../redux/actions/productsInventory/ivaPercentages";
 import { Dropdown } from "primereact/dropdown";
+import { useDidMountEffect } from "../../../../hooks/useDidMountEffect.js";
 
 export const Body = () => {
   const dispatch = useDispatch();
   const [globalFilter, setGlobalFilter] = useState(null);
   const [selectedProductType, setSelectedProductType] = useState(null);
   const [isDialogVisible, setIsDialogVisible] = useState(false);
-  const { productTypes } = useSelector((state) => state.productsInventory.productTypes);
-  const { ivaPercentages } = useSelector((state) => state.productsInventory.ivaPercentages);
+  const { productTypes } = useSelector(
+    (state) => state.productsInventory.productTypes
+  );
+  const { ivaPercentages } = useSelector(
+    (state) => state.productsInventory.ivaPercentages
+  );
+  const sync = useSelector((state) => state.navigation).mainMenu.sync;
 
   useEffect(() => {
-    dispatch(getProductTypes());
-    if (ivaPercentages === null) dispatch(getIvaPercentages());
-  }, [dispatch, ivaPercentages]);
+    if (productTypes === null) getProductTypes()(dispatch);
+    if (ivaPercentages === null) getIvaPercentages()(dispatch);
+  }, []);
+
+  useDidMountEffect(() => {
+    getProductTypes()(dispatch);
+    getIvaPercentages()(dispatch);
+  }, [sync]);
 
   const renderFooter = () => {
     return (

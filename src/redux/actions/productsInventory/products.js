@@ -30,7 +30,7 @@ export const createProduct = (
     `);
     dispatch({
       type: groupTypes.CREATE_PRODUCT_SUCCESS,
-      payload: { loading: false, success: true },
+      payload: { loading: false, success: true, createdProduct: response.createProduct },
     });
     return response.createProduct.id;
   } catch (error) {

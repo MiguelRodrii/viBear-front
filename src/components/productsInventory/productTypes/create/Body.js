@@ -8,19 +8,26 @@ import { showToast } from "../../../../redux/actions/toast";
 import { useDispatch, useSelector } from "react-redux";
 import { getIvaPercentages } from "../../../../redux/actions/productsInventory/ivaPercentages";
 import { createProductType } from "../../../../redux/actions/productsInventory/productTypes";
+import { useDidMountEffect } from "../../../../hooks/useDidMountEffect.js";
 
 export const Body = () => {
   const dispatch = useDispatch();
-  const { ivaPercentages } = useSelector((state) => state.productsInventory.ivaPercentages);
+  const { ivaPercentages } = useSelector(
+    (state) => state.productsInventory.ivaPercentages
+  );
+  const sync = useSelector((state) => state.navigation).mainMenu.sync;
   const [name, setName] = useState("");
   const [isExpirable, setIsExpirable] = useState(true);
-  const [selectedIvaPercentageId, setselectedIvaPercentageId] = useState(
-    undefined
-  );
+  const [selectedIvaPercentageId, setselectedIvaPercentageId] =
+    useState(undefined);
 
   useEffect(() => {
-    dispatch(getIvaPercentages());
-  }, [dispatch]);
+    if (ivaPercentages === null) getIvaPercentages()(dispatch);
+  }, []);
+
+  useDidMountEffect(() => {
+    getIvaPercentages()(dispatch);
+  }, [sync]);
 
   const onIvaPercentageChange = (e) => {
     setselectedIvaPercentageId(e.value);

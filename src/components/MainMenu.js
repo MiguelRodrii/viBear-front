@@ -2,11 +2,13 @@ import { Menu } from "primereact/menu";
 import { Button } from "primereact/button";
 import React, { useRef } from "react";
 import { useHistory } from "react-router-dom";
-import {useSelector} from "react-redux"
+import {useSelector, useDispatch } from "react-redux";
+import {sync} from "../redux/actions/navigation.js";
 
 export const MainMenu = () => {
   const menu = useRef(null);
   const history = useHistory();
+  const dispatch = useDispatch();
   const { mainMenu } = useSelector((state) => state.navigation);
 
   const items = [
@@ -15,6 +17,11 @@ export const MainMenu = () => {
       icon: "pi pi-fw pi-th-large",
       command: () => { history.push(`/productsInventory`)},
     },
+    {
+      label: "Sync",
+      icon: "pi pi-fw pi-refresh",
+      command: () => {sync(!mainMenu.sync)(dispatch)}
+    }
   ];
 
   return (

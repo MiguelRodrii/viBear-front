@@ -4,21 +4,29 @@ import { Editor } from "primereact/editor";
 import { Dropdown } from "primereact/dropdown";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getSimpleProductTypes } from "../../../../redux/actions/productsInventory/productTypes";
 import { createProductDefinition } from "../../../../redux/actions/productsInventory/productDefinitions";
 import { showToast } from "../../../../redux/actions/toast";
 import { Button } from "primereact/button";
+import { useDidMountEffect } from "../../../../hooks/useDidMountEffect.js";
+import {getProductTypes} from "../../../../redux/actions/productsInventory/productTypes.js";
 
 export const Body = () => {
   const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [selectedProductTypeId, setSelectedProductTypeId] = useState(undefined);
-  const { simpleProductTypes } = useSelector((state) => state.productsInventory.productTypes);
+  const { productTypes } = useSelector(
+    (state) => state.productsInventory.productTypes
+  );
+  const sync = useSelector((state) => state.navigation).mainMenu.sync;
 
   useEffect(() => {
-    dispatch(getSimpleProductTypes());
-  }, [dispatch]);
+    if (productTypes === null) getProductTypes()(dispatch);
+  }, []);
+
+  useDidMountEffect(() => {
+    getProductTypes()(dispatch);
+  }, [sync]);
 
   const hadleSubmitCreateProductDefinition = async () => {
     if (
@@ -85,12 +93,12 @@ export const Body = () => {
 
         <div className="p-field card">
           <label className="p-d-block">Tipo de producto</label>
-          {simpleProductTypes === null ? (
+          {productTypes === null ? (
             <h1>Loading...</h1>
           ) : (
             <Dropdown
               value={selectedProductTypeId}
-              options={simpleProductTypes}
+              options={productTypes}
               filter
               filterInputAutoFocus={false}
               showFilterClear={true}

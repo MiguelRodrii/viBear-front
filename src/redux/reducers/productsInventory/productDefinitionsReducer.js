@@ -4,7 +4,6 @@ const initialState = {
   loading: false,
   success: false,
   productDefinitions: null,
-  simpleProductDefinitions: null,
 };
 
 export const productDefinitionsReducer = (state = initialState, action) => {
@@ -12,10 +11,16 @@ export const productDefinitionsReducer = (state = initialState, action) => {
     case groupTypes.CREATE_PRODUCT_DEFINITION_LOADING:
       return { ...state, loading: action.payload.loading };
     case groupTypes.CREATE_PRODUCT_DEFINITION_SUCCESS:
+      var productDefinitions = null;
+      if (state.productDefinitions !== null) {
+        productDefinitions = state.productDefinitions.slice();
+        productDefinitions.unshift(action.payload.createdProductDefinition);
+      }
       return {
         ...state,
         loading: action.payload.loading,
         success: action.payload.success,
+        productDefinitions: productDefinitions,
       };
     case groupTypes.CREATE_PRODUCT_DEFINITION_FAILED:
       return {
@@ -70,21 +75,6 @@ export const productDefinitionsReducer = (state = initialState, action) => {
         success: action.payload.success,
       };
     case groupTypes.UPDATE_PRODUCT_DEFINITION_FAILED:
-      return {
-        ...state,
-        loading: action.payload.loading,
-        success: action.payload.success,
-      };
-    case groupTypes.GET_SIMPLE_PRODUCT_DEFINITIONS_LOADING:
-      return { ...state, loading: action.payload.loading };
-    case groupTypes.GET_SIMPLE_PRODUCT_DEFINITIONS_SUCCESS:
-      return {
-        ...state,
-        loading: action.payload.loading,
-        success: action.payload.success,
-        simpleProductDefinitions: action.payload.simpleProductDefinitions,
-      };
-    case groupTypes.GET_SIMPLE_PRODUCT_DEFINITIONS_FAILED:
       return {
         ...state,
         loading: action.payload.loading,

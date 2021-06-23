@@ -11,10 +11,16 @@ export const expirationDatesReducer = (state = initialState, action) => {
     case groupTypes.CREATE_EXPIRATION_DATE_LOADING:
       return { ...state, loading: action.payload.loading };
     case groupTypes.CREATE_EXPIRATION_DATE_SUCCESS:
+      var expirationDates = null;
+      if (state.expirationDates !== null) {
+        expirationDates = state.expirationDates.split();
+        expirationDates.unshift(action.payload.createdExpirationDate)
+      }
       return {
         ...state,
         loading: action.payload.loading,
         success: action.payload.success,
+        expirationDates: expirationDates
       };
     case groupTypes.CREATE_EXPIRATION_DATE_FAILED:
       return {

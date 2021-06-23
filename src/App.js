@@ -10,7 +10,7 @@ import { ProductsInventoryRouter } from "./routers/ProductsInventoryRouter.js";
 function App() {
   return (
     <>
-      <div className="p-grid p-d-flex p-ai-center p-jc-between p-mb-2">
+      <div className="p-grid p-d-flex p-ai-center p-jc-between sticky-navbar">
         <div className="p-ml-2">
           <MainMenu></MainMenu>
         </div>
