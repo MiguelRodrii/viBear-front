@@ -34,6 +34,7 @@ export const Body = () => {
 
   useDidMountEffect(() => {
     getProductDefinitions()(dispatch);
+    showToast("success", `Sincronización exitosa.`)(dispatch);
   }, [sync]);
 
   const handleSubmitCreateProduct = async () => {

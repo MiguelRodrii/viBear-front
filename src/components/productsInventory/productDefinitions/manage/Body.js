@@ -42,6 +42,7 @@ export const Body = () => {
   useDidMountEffect(() => {
     getProductDefinitions()(dispatch);
     getProductTypes()(dispatch);
+    showToast("success", `Sincronización exitosa.`)(dispatch);
   }, [sync]);
 
   const nameBodyTemplate = (rowData) => {

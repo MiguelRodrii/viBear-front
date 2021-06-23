@@ -8,7 +8,7 @@ import { createProductDefinition } from "../../../../redux/actions/productsInven
 import { showToast } from "../../../../redux/actions/toast";
 import { Button } from "primereact/button";
 import { useDidMountEffect } from "../../../../hooks/useDidMountEffect.js";
-import {getProductTypes} from "../../../../redux/actions/productsInventory/productTypes.js";
+import { getProductTypes } from "../../../../redux/actions/productsInventory/productTypes.js";
 
 export const Body = () => {
   const dispatch = useDispatch();
@@ -26,6 +26,7 @@ export const Body = () => {
 
   useDidMountEffect(() => {
     getProductTypes()(dispatch);
+    showToast("success", `Sincronización exitosa.`)(dispatch);
   }, [sync]);
 
   const hadleSubmitCreateProductDefinition = async () => {

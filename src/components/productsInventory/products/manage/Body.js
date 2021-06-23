@@ -57,6 +57,7 @@ export const Body = () => {
     getProducts()(dispatch);
     getExpirationDates()(dispatch);
     getProductDefinitions()(dispatch);
+    showToast("success", `Sincronización exitosa.`)(dispatch);
   }, [sync]);
 
   const renderHeader = () => {

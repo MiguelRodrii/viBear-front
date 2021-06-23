@@ -40,6 +40,7 @@ export const Body = () => {
   useDidMountEffect(() => {
     getProductTypes()(dispatch);
     getIvaPercentages()(dispatch);
+    showToast("success", `Sincronización exitosa.`)(dispatch);
   }, [sync]);
 
   const renderFooter = () => {

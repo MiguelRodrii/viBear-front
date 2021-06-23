@@ -27,6 +27,7 @@ export const Body = () => {
 
   useDidMountEffect(() => {
     getIvaPercentages()(dispatch);
+    showToast("success", `Sincronización exitosa.`)(dispatch);
   }, [sync]);
 
   const onIvaPercentageChange = (e) => {
