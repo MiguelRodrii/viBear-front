@@ -13,7 +13,7 @@ export const expirationDatesReducer = (state = initialState, action) => {
     case groupTypes.CREATE_EXPIRATION_DATE_SUCCESS:
       var expirationDates = null;
       if (state.expirationDates !== null) {
-        expirationDates = state.expirationDates.split();
+        expirationDates = state.expirationDates.slice();
         expirationDates.unshift(action.payload.createdExpirationDate)
       }
       return {
