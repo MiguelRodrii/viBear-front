@@ -13,7 +13,7 @@ export const productsReducer = (state = initialState, action) => {
     case groupTypes.CREATE_PRODUCT_SUCCESS:
       var products = null;
       if (state.products !== null) {
-        products = state.products.split();
+        products = state.products.slice();
         products.unshift(action.payload.createdProduct);
       }
       return {
