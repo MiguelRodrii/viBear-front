@@ -59,20 +59,20 @@ export const Body = () => {
       );
       return;
     }
+    (100 * salePrice) /
+      (selectedProductDefinition.product_type.iva_percentage.value + 100);
     const response1 = await dispatch(
       createProduct(
         amount,
         purchasePriceHasIva
-          ? purchasePrice -
-              (purchasePrice *
-                selectedProductDefinition.product_type.iva_percentage.value) /
-                100
+          ? (100 * purchasePrice) /
+              (selectedProductDefinition.product_type.iva_percentage.value +
+                100)
           : purchasePrice,
         salePriceHasIva
-          ? salePrice -
-              (salePrice *
-                selectedProductDefinition.product_type.iva_percentage.value) /
-                100
+          ? (100 * salePrice) /
+              (selectedProductDefinition.product_type.iva_percentage.value +
+                100)
           : salePrice,
         selectedProductDefinition
       )

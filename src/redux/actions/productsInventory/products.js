@@ -2,18 +2,14 @@ import API from "../../../services";
 import { gql } from "graphql-request";
 import * as groupTypes from "../../constants/productsInventory/products.js";
 
-export const createProduct = (
-  amount,
-  purchasePrice,
-  salePrice,
-  productDefinition
-) => async (dispatch) => {
-  try {
-    dispatch({
-      type: groupTypes.CREATE_PRODUCT_LOADING,
-      payload: { loading: true },
-    });
-    const response = await API.request(gql`
+export const createProduct =
+  (amount, purchasePrice, salePrice, productDefinition) => async (dispatch) => {
+    try {
+      dispatch({
+        type: groupTypes.CREATE_PRODUCT_LOADING,
+        payload: { loading: true },
+      });
+      const response = await API.request(gql`
       mutation {
         createProduct(
           product: {
@@ -25,23 +21,41 @@ export const createProduct = (
           }
         ) {
           id
+          purchase_price
+          sale_price
+          current_amount
+          product_definition {
+            id
+            name
+            product_type {
+              name
+              is_expirable
+              iva_percentage {
+                value
+              }
+            }
+          }
         }
       }
     `);
-    dispatch({
-      type: groupTypes.CREATE_PRODUCT_SUCCESS,
-      payload: { loading: false, success: true, createdProduct: response.createProduct },
-    });
-    return response.createProduct.id;
-  } catch (error) {
-    console.log(error);
-    dispatch({
-      type: groupTypes.CREATE_PRODUCT_FAILED,
-      payload: { loading: false, success: false },
-    });
-    return undefined;
-  }
-};
+      dispatch({
+        type: groupTypes.CREATE_PRODUCT_SUCCESS,
+        payload: {
+          loading: false,
+          success: true,
+          createdProduct: response.createProduct,
+        },
+      });
+      return response.createProduct.id;
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: groupTypes.CREATE_PRODUCT_FAILED,
+        payload: { loading: false, success: false },
+      });
+      return undefined;
+    }
+  };
 
 export const getProducts = () => async (dispatch) => {
   try {
@@ -116,19 +130,15 @@ export const deleteProduct = (productId) => async (dispatch) => {
   }
 };
 
-export const updateProduct = (
-  productId,
-  productDefinitionId,
-  currentAmount,
-  purchasePrice,
-  salePrice
-) => async (dispatch) => {
-  try {
-    dispatch({
-      type: groupTypes.UPDATE_PRODUCT_LOADING,
-      payload: { loading: true },
-    });
-    const response = await API.request(gql`
+export const updateProduct =
+  (productId, productDefinitionId, currentAmount, purchasePrice, salePrice) =>
+  async (dispatch) => {
+    try {
+      dispatch({
+        type: groupTypes.UPDATE_PRODUCT_LOADING,
+        payload: { loading: true },
+      });
+      const response = await API.request(gql`
       mutation {
         updateProduct(
           product: {
@@ -157,24 +167,24 @@ export const updateProduct = (
         }
       }
     `);
-    dispatch({
-      type: groupTypes.UPDATE_PRODUCT_SUCCESS,
-      payload: {
-        loading: false,
-        success: true,
-        updatedProduct: response.updateProduct,
-      },
-    });
-    return true;
-  } catch (error) {
-    console.log(error);
-    dispatch({
-      type: groupTypes.UPDATE_PRODUCT_FAILED,
-      payload: {
-        loading: false,
-        success: true,
-      },
-    });
-    return false;
-  }
-};
+      dispatch({
+        type: groupTypes.UPDATE_PRODUCT_SUCCESS,
+        payload: {
+          loading: false,
+          success: true,
+          updatedProduct: response.updateProduct,
+        },
+      });
+      return true;
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: groupTypes.UPDATE_PRODUCT_FAILED,
+        payload: {
+          loading: false,
+          success: true,
+        },
+      });
+      return false;
+    }
+  };

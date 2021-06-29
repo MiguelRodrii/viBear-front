@@ -143,6 +143,13 @@ export const Body = () => {
       expirationDates.find((element) => {
         return element.product.id === rowData.id;
       });
+    let toShowDate = "";
+    if (expirationDate !== null) {
+      const currentExpirationDate = new Date(expirationDate.value);
+      toShowDate += currentExpirationDate.getDay() + "/";
+      toShowDate += currentExpirationDate.getMonth() + "/";
+      toShowDate += currentExpirationDate.getFullYear() + "";
+    }
     return (
       <React.Fragment>
         <div className="p-d-flex p-jc-between p-ai-center">
@@ -158,7 +165,7 @@ export const Body = () => {
                 }}
               />
             ) : (
-              new Date(expirationDate.value).toLocaleDateString()
+              toShowDate
             )
           ) : (
             `No expirable`
@@ -262,18 +269,17 @@ export const Body = () => {
     const ivaPercentageValue = productDefinitions.find((element) => {
       return element.id === selectedProduct.product_definition.id;
     }).product_type.iva_percentage.value;
+
     const response3 = await dispatch(
       updateProduct(
         selectedProduct.id,
         selectedProduct.product_definition.id,
         selectedProduct.current_amount,
         purchasePriceHasIva
-          ? selectedProduct.purchase_price -
-              (selectedProduct.purchase_price * ivaPercentageValue) / 100
+          ? (100 * selectedProduct.purchase_price) / (ivaPercentageValue + 100)
           : selectedProduct.purchase_price,
         salePriceHasIva
-          ? selectedProduct.sale_price -
-              (selectedProduct.sale_price * ivaPercentageValue) / 100
+          ? (100 * selectedProduct.sale_price) / (ivaPercentageValue + 100)
           : selectedProduct.sale_price
       )
     );
@@ -293,6 +299,8 @@ export const Body = () => {
       )
     );
     setIsUpdateDialogVisible(false);
+    setPurchasePriceHasIva(false);
+    setSalePriceHasIva(false);
   };
 
   const renderUpdateDialogFooter = () => {
