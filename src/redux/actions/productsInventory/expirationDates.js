@@ -15,6 +15,10 @@ export const createExpirationDate =
           expirationDate: { value: "${expirationDate.toDateString()}", product_id: ${productId} }
         ) {
           id
+          value
+          product {
+            id
+          }
         }
       }
     `);

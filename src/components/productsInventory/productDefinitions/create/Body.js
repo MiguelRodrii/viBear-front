@@ -75,7 +75,7 @@ export const Body = () => {
             required={true}
           />
           <small className="p-d-block">
-            Nombre del producto. Ejemplo: Aceite La Favorita 1L.
+            Nombre del producto. Ejemplo: Leche entera funda Floralp 450cm3 o Detergente polvo Gol Limón 1000g.
           </small>
         </div>
 
