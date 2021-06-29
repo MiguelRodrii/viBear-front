@@ -146,8 +146,14 @@ export const Body = () => {
     let toShowDate = "";
     if (expirationDate !== null) {
       const currentExpirationDate = new Date(expirationDate.value);
-      toShowDate += currentExpirationDate.getDay() + "/";
-      toShowDate += currentExpirationDate.getMonth() + "/";
+      toShowDate +=
+        currentExpirationDate.getDate() > 10
+          ? currentExpirationDate.getDate() + "/"
+          : "0" + currentExpirationDate.getDate() + "/";
+      toShowDate +=
+        currentExpirationDate.getMonth() > 10
+          ? currentExpirationDate.getMonth() + 1 + "/"
+          : "0" + (currentExpirationDate.getMonth() + 1) + "/";
       toShowDate += currentExpirationDate.getFullYear() + "";
     }
     return (
