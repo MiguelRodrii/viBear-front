@@ -26,7 +26,6 @@ export const getIvaPercentages = () => async (dispatch) => {
       },
     });
   } catch (error) {
-    console.log(error);
     dispatch({
       type: groupTypes.GET_IVA_PERCENTAGES_FAILED,
       payload: {
@@ -34,5 +33,15 @@ export const getIvaPercentages = () => async (dispatch) => {
         success: false,
       },
     });
+    if (error.response === undefined) {
+      console.log(error);
+      return;
+    }
+    if (error.response.errors[0].message.body === undefined) {
+      console.log(error);
+      console.log(error.response);
+      return;
+    }
+    throw new Error(error.response.errors[0].message.body.nontechnical);
   }
 };

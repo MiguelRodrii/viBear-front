@@ -22,12 +22,11 @@ export const Body = () => {
     useState(undefined);
 
   useEffect(() => {
-    if (ivaPercentages === null) getIvaPercentages()(dispatch);
+    if (ivaPercentages === null) getIvaPercentages()(dispatch).catch((error) => { showToast("error", error.message)(dispatch); });
   }, []);
 
   useDidMountEffect(() => {
-    getIvaPercentages()(dispatch);
-    showToast("success", `Sincronización exitosa.`)(dispatch);
+    getIvaPercentages()(dispatch).then(() => { showToast("success", `Sincronización exitosa.`)(dispatch); }).catch((error) => { showToast("error", error.message)(dispatch); });
   }, [sync]);
 
   const onIvaPercentageChange = (e) => {
